@@ -1,0 +1,4 @@
+# Stage 1 needs no third-party packages.
+# Stage 2: scikit-learn, rank-bm25, numpy
+# Stage 3: spacy (+ en_core_web_sm), nltk
+# Stage 5: streamlit, pandas
