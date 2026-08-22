@@ -33,3 +33,13 @@ ALLOWED_EXTENSIONS = frozenset({".txt", ".md"})
 CHUNK_WINDOW_SENTENCES = 3
 CHUNK_STRIDE_SENTENCES = 2   # window 3 / stride 2 => 1 sentence of overlap
 MIN_PASSAGE_CHARS = 90
+
+# --- Retrieval ---------------------------------------------------------------
+# BM25's two knobs. k1 controls how fast term frequency saturates: a passage
+# mentioning "bm25" ten times is not ten times more relevant than one mentioning
+# it once. b controls length normalisation: 0 ignores length entirely, 1
+# penalises long passages fully. These are the standard defaults.
+BM25_K1 = 1.5
+BM25_B = 0.75
+
+DEFAULT_TOP_K = 5
