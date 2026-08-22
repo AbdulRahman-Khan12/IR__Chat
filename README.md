@@ -38,7 +38,7 @@ says is unverifiable.
 | Stage | Scope | Status |
 |-------|-------|--------|
 | 1 | Corpus layer, preprocessing, passage chunking | **done** |
-| 2 | Retrieval: TF-IDF and BM25, ranking, query handling | pending |
+| 2 | Retrieval: inverted index, BM25 + TF-IDF, ranking | **done** |
 | 3 | Factoid extraction: answer typing, NER, span scoring | pending |
 | 4 | Knowledge base + frame-based dialogue manager | pending |
 | 5 | Streamlit interface, evaluation harness, deployment | pending |
@@ -51,13 +51,15 @@ IR__Chat/
 │   ├── config.py       all limits, MAX_DOCS lives here and nowhere else
 │   ├── preprocess.py   normalise, sentence split (with offsets), tokenize, stem
 │   ├── corpus.py       Document, Corpus (capped at 25), download payloads
-│   └── chunker.py      sliding sentence windows → Passage objects
+│   ├── chunker.py      sliding sentence windows → Passage objects
+│   └── retriever.py    inverted index, BM25 and TF-IDF scoring
 ├── data/
 │   ├── corpus/         12 bundled documents, 13 slots free for uploads
 │   ├── kb/             knowledge base triples (Stage 4)
 │   └── eval/           question/answer set (Stage 5)
 └── scripts/
-    └── stage1_check.py self-check for the foundation
+    ├── stage1_check.py self-check for the foundation
+    └── stage2_check.py self-check for retrieval
 ```
 
 ## Running the Stage 1 check
@@ -66,6 +68,7 @@ No dependencies are needed yet — Stage 1 is pure standard library.
 
 ```bash
 python3 scripts/stage1_check.py
+python3 scripts/stage2_check.py
 ```
 
 It verifies that the corpus loads, that the 26th document is refused, that the
@@ -88,6 +91,17 @@ together in at least one passage.
 document text rather than copies. Stage 3 needs them to locate an answer span
 inside the source, and Stage 5 needs them to highlight it. `Document` is a
 frozen dataclass so those offsets can never silently go stale.
+
+**Why one index and two scorers.** BM25 and TF-IDF need the same three
+statistics: term frequency, document frequency, and passage length. Building
+two separate retrievers would duplicate all of that. One index with two
+scoring functions makes the comparison a one-line change and shows that the
+difference between the two methods is the formula, not the data.
+
+**Why every result carries a term breakdown.** A bare relevance score is
+unfalsifiable. `SearchResult.term_scores` records what each query term
+contributed, so the interface can justify a ranking and a wrong answer can be
+diagnosed instead of guessed at.
 
 **Why no NLTK yet.** Streamlit Community Cloud rebuilds the container on every
 deploy, and anything calling `nltk.download()` at import time is a startup
