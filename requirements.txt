@@ -1,4 +1,9 @@
-# Stage 1 needs no third-party packages.
-# Stage 2: scikit-learn, rank-bm25, numpy
-# Stage 3: spacy (+ en_core_web_sm), nltk
-# Stage 5: streamlit, pandas
+# Stage 3: named entity recognition for answer extraction.
+# The model is pinned by URL because Streamlit Cloud installs from this file
+# and cannot run `python -m spacy download`.
+spacy>=3.7,<4.0
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+
+# Stage 5: interface
+# streamlit>=1.35
+# pandas>=2.0
