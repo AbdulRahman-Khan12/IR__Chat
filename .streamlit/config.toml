@@ -1,0 +1,15 @@
+[theme]
+# Deliberately not Streamlit's default red. Deep teal reads as "considered"
+# rather than "alert", and it is the only saturated colour in the interface, so
+# it always means the same thing: this is the thing to act on.
+primaryColor = "#0F766E"
+backgroundColor = "#F7F8FA"
+secondaryBackgroundColor = "#EBEFF3"
+textColor = "#16212E"
+font = "serif"
+
+[server]
+maxUploadSize = 5
+
+[browser]
+gatherUsageStats = false
