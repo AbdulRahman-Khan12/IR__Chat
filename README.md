@@ -39,7 +39,7 @@ says is unverifiable.
 |-------|-------|--------|
 | 1 | Corpus layer, preprocessing, passage chunking | **done** |
 | 2 | Retrieval: inverted index, BM25 + TF-IDF, ranking | **done** |
-| 3 | Factoid extraction: answer typing, NER, span scoring | pending |
+| 3 | Factoid extraction: answer typing, spaCy NER, span scoring | **done** |
 | 4 | Knowledge base + frame-based dialogue manager | pending |
 | 5 | Streamlit interface, evaluation harness, deployment | pending |
 
@@ -52,14 +52,16 @@ IR__Chat/
 │   ├── preprocess.py   normalise, sentence split (with offsets), tokenize, stem
 │   ├── corpus.py       Document, Corpus (capped at 25), download payloads
 │   ├── chunker.py      sliding sentence windows → Passage objects
-│   └── retriever.py    inverted index, BM25 and TF-IDF scoring
+│   ├── retriever.py    inverted index, BM25 and TF-IDF scoring
+│   └── extractor.py    question typing, NER, answer span selection
 ├── data/
 │   ├── corpus/         12 bundled documents, 13 slots free for uploads
 │   ├── kb/             knowledge base triples (Stage 4)
 │   └── eval/           question/answer set (Stage 5)
 └── scripts/
     ├── stage1_check.py self-check for the foundation
-    └── stage2_check.py self-check for retrieval
+    ├── stage2_check.py self-check for retrieval
+    └── stage3_check.py self-check for answer extraction
 ```
 
 ## Running the Stage 1 check
@@ -69,6 +71,7 @@ No dependencies are needed yet — Stage 1 is pure standard library.
 ```bash
 python3 scripts/stage1_check.py
 python3 scripts/stage2_check.py
+python3 scripts/stage3_check.py   # needs spaCy, see requirements.txt
 ```
 
 It verifies that the corpus loads, that the 26th document is refused, that the
@@ -103,7 +106,20 @@ unfalsifiable. `SearchResult.term_scores` records what each query term
 contributed, so the interface can justify a ranking and a wrong answer can be
 diagnosed instead of guessed at.
 
+**Why a coverage gate.** Retrieval scores are *relative*: the best of five
+irrelevant passages still ranks first with a healthy-looking score. Asking
+"Who won the 2022 World Cup?" retrieved the ELIZA document, because it
+contains the word *world*, and the extractor confidently answered "Joseph
+Weizenbaum". Requiring a passage to share at least 40% of the question's
+content words is an *absolute* test, and it is what lets the system say it
+does not know. Genuine questions score 0.50-1.00; that one scored 0.25.
+
+**Why answers fall back to sentences.** A "why" or "what is" question has no
+entity-shaped answer. Rather than forcing a span, the extractor quotes the
+best supporting sentence. Naming the wrong person is a worse failure than
+declining to name one.
+
 **Why no NLTK yet.** Streamlit Community Cloud rebuilds the container on every
 deploy, and anything calling `nltk.download()` at import time is a startup
-failure waiting to happen. NLTK and spaCy arrive in Stage 3, where their models
-do work that hand-written rules cannot.
+failure waiting to happen. NLTK and spaCy arrive in Stage 3, where NER does work
+that hand-written rules cannot.
