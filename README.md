@@ -40,7 +40,7 @@ says is unverifiable.
 | 1 | Corpus layer, preprocessing, passage chunking | **done** |
 | 2 | Retrieval: inverted index, BM25 + TF-IDF, ranking | **done** |
 | 3 | Factoid extraction: answer typing, spaCy NER, span scoring | **done** |
-| 4 | Knowledge base + frame-based dialogue manager | pending |
+| 4 | Knowledge base (81 triples) + frame-based dialogue manager | **done** |
 | 5 | Streamlit interface, evaluation harness, deployment | pending |
 
 ## Layout
@@ -53,15 +53,18 @@ IR__Chat/
 │   ├── corpus.py       Document, Corpus (capped at 25), download payloads
 │   ├── chunker.py      sliding sentence windows → Passage objects
 │   ├── retriever.py    inverted index, BM25 and TF-IDF scoring
-│   └── extractor.py    question typing, NER, answer span selection
+│   ├── extractor.py    question typing, NER, answer span selection
+│   ├── knowledge.py    triples, question -> (subject, relation) lookup
+│   └── dialogue.py     intents, topic slot, routing, follow-ups
 ├── data/
 │   ├── corpus/         12 bundled documents, 13 slots free for uploads
-│   ├── kb/             knowledge base triples (Stage 4)
+│   ├── kb/facts.json   81 triples, each citing its source document
 │   └── eval/           question/answer set (Stage 5)
 └── scripts/
     ├── stage1_check.py self-check for the foundation
     ├── stage2_check.py self-check for retrieval
-    └── stage3_check.py self-check for answer extraction
+    ├── stage3_check.py self-check for answer extraction
+    └── stage4_check.py self-check for knowledge base and dialogue
 ```
 
 ## Running the Stage 1 check
@@ -72,6 +75,7 @@ No dependencies are needed yet — Stage 1 is pure standard library.
 python3 scripts/stage1_check.py
 python3 scripts/stage2_check.py
 python3 scripts/stage3_check.py   # needs spaCy, see requirements.txt
+python3 scripts/stage4_check.py
 ```
 
 It verifies that the corpus loads, that the 26th document is refused, that the
@@ -118,6 +122,18 @@ does not know. Genuine questions score 0.50-1.00; that one scored 0.25.
 entity-shaped answer. Rather than forcing a span, the extractor quotes the
 best supporting sentence. Naming the wrong person is a worse failure than
 declining to name one.
+
+**Why the knowledge base is tried first.** A lookup that succeeds is always
+right; a retrieved span is a guess. Both routes stay in the system because
+they fail in opposite directions: the knowledge base can only answer what
+somebody entered, retrieval can answer anything the corpus mentions but may
+pick the wrong span.
+
+**Why the topic slot stores the question's subject.** After "Who wrote
+ELIZA?" the slot holds *ELIZA*, not *Joseph Weizenbaum*, so the follow-up
+"and when?" asks when ELIZA was written rather than when Weizenbaum was
+born. The rewritten query does not have to be grammatical -- "and when
+ELIZA" is enough, because retrieval strips stopwords anyway.
 
 **Why no NLTK yet.** Streamlit Community Cloud rebuilds the container on every
 deploy, and anything calling `nltk.download()` at import time is a startup
