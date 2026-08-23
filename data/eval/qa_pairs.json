@@ -1,0 +1,46 @@
+{
+  "_comment": "Gold set for evaluation. 'a' is the expected answer; null means the question is deliberately unanswerable and the system is expected to refuse. 'doc' is the document that should be retrieved.",
+
+  "pairs": [
+    {"q": "Who wrote ELIZA?", "a": "Joseph Weizenbaum", "doc": "02-eliza-and-early-chatbots", "type": "PERSON"},
+    {"q": "Who built PARRY?", "a": "Kenneth Colby", "doc": "02-eliza-and-early-chatbots", "type": "PERSON"},
+    {"q": "Who developed BM25?", "a": "Stephen Robertson and Karen Sparck Jones", "doc": "04-bm25-ranking", "type": "PERSON"},
+    {"q": "Who introduced inverse document frequency?", "a": "Karen Sparck Jones", "doc": "03-information-retrieval-basics", "type": "PERSON"},
+    {"q": "Who published the Chinese Room argument?", "a": "John Searle", "doc": "01-turing-test", "type": "PERSON"},
+    {"q": "Who created the Lesk algorithm?", "a": "Michael Lesk", "doc": "12-wordnet-and-lexical-semantics", "type": "PERSON"},
+    {"q": "Who created the vector space model?", "a": "Gerard Salton", "doc": "03-information-retrieval-basics", "type": "PERSON"},
+    {"q": "Who wrote BLEU?", "a": "Kishore Papineni and colleagues", "doc": "11-evaluation-metrics", "type": "PERSON"},
+    {"q": "Who created ROUGE?", "a": "Chin-Yew Lin", "doc": "11-evaluation-metrics", "type": "PERSON"},
+    {"q": "Who built GUS?", "a": "Daniel Bobrow and colleagues", "doc": "10-dialogue-systems", "type": "PERSON"},
+
+    {"q": "When was WordNet begun?", "a": "1985", "doc": "12-wordnet-and-lexical-semantics", "type": "DATE"},
+    {"q": "When was ELIZA written?", "a": "1966", "doc": "02-eliza-and-early-chatbots", "type": "DATE"},
+    {"q": "When was PARRY built?", "a": "1972", "doc": "02-eliza-and-early-chatbots", "type": "DATE"},
+    {"q": "When was SQuAD released?", "a": "2016", "doc": "05-question-answering-systems", "type": "DATE"},
+    {"q": "When was Wikidata launched?", "a": "October 2012", "doc": "09-knowledge-graphs", "type": "DATE"},
+    {"q": "What year was the Turing Test proposed?", "a": "1950", "doc": "01-turing-test", "type": "DATE"},
+    {"q": "When was the Transformer published?", "a": "2017", "doc": "08-transformers", "type": "DATE"},
+    {"q": "When was BLEU introduced?", "a": "2002", "doc": "11-evaluation-metrics", "type": "DATE"},
+    {"q": "When did TREC start?", "a": "1992", "doc": "04-bm25-ranking", "type": "DATE"},
+    {"q": "When was Cypher introduced?", "a": "2011", "doc": "09-knowledge-graphs", "type": "DATE"},
+
+    {"q": "Where was PARRY built?", "a": "Stanford University", "doc": "02-eliza-and-early-chatbots", "type": "PLACE"},
+    {"q": "Which university is WordNet from?", "a": "Princeton University", "doc": "12-wordnet-and-lexical-semantics", "type": "ORG"},
+    {"q": "Which company released word2vec?", "a": "Google", "doc": "07-word-embeddings", "type": "ORG"},
+    {"q": "Which company is behind GPT?", "a": "OpenAI", "doc": "08-transformers", "type": "ORG"},
+    {"q": "Which organisation runs TREC?", "a": "the National Institute of Standards and Technology", "doc": "04-bm25-ranking", "type": "ORG"},
+
+    {"q": "How many synsets does WordNet contain?", "a": "roughly 117,000 synsets in version 3.0", "doc": "12-wordnet-and-lexical-semantics", "type": "NUMBER"},
+    {"q": "What are the typical BM25 parameter values?", "a": "k1 is usually between 1.2 and 2.0, and b is usually 0.75", "doc": "04-bm25-ranking", "type": "NUMBER"},
+
+    {"q": "What is a synset?", "a": "sets of synonyms that share one sense", "doc": "12-wordnet-and-lexical-semantics", "type": "DEFINITION"},
+    {"q": "What is an inverted index?", "a": "maps every term to the list of documents containing it", "doc": "03-information-retrieval-basics", "type": "DEFINITION"},
+    {"q": "What is BIO tagging?", "a": "first token of an entity is labelled B", "doc": "06-named-entity-recognition", "type": "DEFINITION"},
+    {"q": "Why does BM25 normalise for length?", "a": "a long document contains more words and would otherwise win by sheer size", "doc": "04-bm25-ranking", "type": "EXPLANATION"},
+    {"q": "How does self-attention work?", "a": "every position in a sequence look directly at every other position", "doc": "08-transformers", "type": "EXPLANATION"},
+
+    {"q": "Who won the 2022 World Cup?", "a": null, "doc": null, "type": "UNANSWERABLE"},
+    {"q": "What is the capital of Peru?", "a": null, "doc": null, "type": "UNANSWERABLE"},
+    {"q": "How do I bake sourdough bread?", "a": null, "doc": null, "type": "UNANSWERABLE"}
+  ]
+}
