@@ -43,3 +43,25 @@ BM25_K1 = 1.5
 BM25_B = 0.75
 
 DEFAULT_TOP_K = 5
+
+# --- Answer extraction -------------------------------------------------------
+# A candidate answer is scored on three positive signals and one penalty. The
+# weights sum to 1.0, so a raw score is already a usable confidence.
+W_EVIDENCE = 0.30   # how relevant was the passage this came from
+W_TYPE = 0.30       # is this the kind of thing the question asked for
+W_CONTEXT = 0.40    # does the sentence around it address the question
+W_REPEAT = 0.35     # penalty: the answer just echoes words from the question
+
+# Candidates scoring below this are not worth showing as a factoid answer;
+# the system falls back to quoting the best sentence instead.
+MIN_ANSWER_CONFIDENCE = 0.35
+
+# A passage must share at least this fraction of the question's content words
+# before any answer is taken from it. Without this gate the extractor happily
+# answers "Who won the 2022 World Cup?" from a passage that merely contains
+# the word "world", because retrieval scores are relative: the best of five
+# bad passages still ranks first.
+MIN_QUESTION_COVERAGE = 0.4
+
+# How many retrieved passages the extractor scans for candidates.
+EXTRACT_FROM_TOP_N = 4
