@@ -64,7 +64,12 @@ _QUESTION_RULES: list[tuple[re.Pattern[str], QuestionType]] = [
     (re.compile(r"\b(which|what) (company|organisation|organization|university|"
                 r"institution|lab|team|group)\b"),
      QuestionType("ORG", frozenset({"ORG"}))),
-    (re.compile(r"\b(what|which) (is|are|was|were) (a|an|the)?\s*\w+\??$"),
+    # A definitional question ends shortly after the thing being defined:
+    # "what is a synset", "what is BIO tagging". Allowing up to three words
+    # covers multi-word terms without swallowing "what are the typical BM25
+    # parameter values", which is a quantity question wearing a "what" hat.
+    (re.compile(r"\b(what|which) (is|are|was|were)\s+(a|an|the)?\s*"
+                r"[\w-]+(\s+[\w-]+){0,2}\s*\??$"),
      QuestionType("DEFINITION", frozenset(), wants_span=False)),
     (re.compile(r"\b(define|what does .+ mean|what is meant by)\b"),
      QuestionType("DEFINITION", frozenset(), wants_span=False)),
@@ -378,7 +383,8 @@ def extract_answer(
     best_sentence = None
     for result in considered:
         evidence = result.score / best_retrieval
-        for start, end in split_sentences_with_spans(result.text):
+        spans = split_sentences_with_spans(result.text)
+        for position, (start, end) in enumerate(spans):
             sentence = result.text[start:end]
             overlap = (
                 len(question_terms & set(analyze(sentence))) / len(question_terms)
@@ -386,12 +392,22 @@ def extract_answer(
             )
             score = W_EVIDENCE * evidence + (W_TYPE + W_CONTEXT) * overlap
             if best_sentence is None or score > best_sentence[0]:
-                best_sentence = (score, sentence, start, end, result, overlap, evidence)
+                best_sentence = (score, sentence, start, end, result, overlap,
+                                 evidence, spans, position)
 
     if best_sentence is None:
         return Answer("", "none", 0.0, qtype.name)
 
-    score, sentence, start, end, result, overlap, evidence = best_sentence
+    score, sentence, start, end, result, overlap, evidence, spans, position = best_sentence
+
+    # An explanation rarely fits in one sentence. "The second is length
+    # normalisation." is the topic sentence; the reason lives in the one after
+    # it, which shares no words with the question and could never be selected on
+    # overlap alone. When the winner is short, carry the next sentence with it.
+    if not qtype.wants_span and len(sentence) < 130 and position + 1 < len(spans):
+        next_start, next_end = spans[position + 1]
+        sentence = result.text[start:next_end]
+        end = next_end
     return Answer(
         text=sentence.lstrip("# ").strip(),
         kind="sentence",
