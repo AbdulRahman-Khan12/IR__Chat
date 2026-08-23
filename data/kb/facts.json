@@ -1,0 +1,603 @@
+{
+  "_comment": "Facts are triples of subject-relation-object, each traceable to the document it came from. A knowledge-based QA system answers by looking a fact up, not by reading text, so answers are exact and always citable.",
+  "relations": {
+    "created_by": {
+      "label": "created by",
+      "answer_type": "PERSON",
+      "cues": [
+        "who wrote",
+        "who created",
+        "who built",
+        "who developed",
+        "who invented",
+        "who designed",
+        "who introduced",
+        "who published",
+        "who made",
+        "who proposed",
+        "who is behind",
+        "creator of",
+        "author of",
+        "developed by",
+        "created by",
+        "written by",
+        "invented by"
+      ]
+    },
+    "created_in": {
+      "label": "dated",
+      "answer_type": "DATE",
+      "cues": [
+        "when was",
+        "when did",
+        "when were",
+        "what year",
+        "which year",
+        "in what year",
+        "how old",
+        "date of",
+        "released",
+        "launched",
+        "published in what",
+        "when"
+      ]
+    },
+    "affiliated_with": {
+      "label": "affiliated with",
+      "answer_type": "ORG",
+      "cues": [
+        "where was",
+        "where did",
+        "which company",
+        "which organisation",
+        "which organization",
+        "which university",
+        "which institution",
+        "which lab",
+        "what company",
+        "what university",
+        "affiliated with",
+        "built at",
+        "developed at",
+        "comes from",
+        "who owns"
+      ]
+    },
+    "published_in": {
+      "label": "published in",
+      "answer_type": "TITLE",
+      "cues": [
+        "published in",
+        "which journal",
+        "what journal",
+        "which paper",
+        "what paper",
+        "which venue",
+        "appeared in",
+        "title of"
+      ]
+    },
+    "quantity": {
+      "label": "quantity",
+      "answer_type": "NUMBER",
+      "cues": [
+        "how many",
+        "how much",
+        "how large",
+        "what value",
+        "typical value",
+        "how big",
+        "what size",
+        "parameter",
+        "typical setting",
+        "what are the values",
+        "default value"
+      ]
+    }
+  },
+  "aliases": {
+    "idf": "inverse document frequency",
+    "okapi bm25": "BM25",
+    "the turing test": "Turing Test",
+    "imitation game": "Turing Test",
+    "chinese room argument": "Chinese Room",
+    "attention is all you need": "Transformer",
+    "the transformer": "Transformer",
+    "vsm": "vector space model",
+    "text retrieval conference": "TREC",
+    "dstc": "Dialog State Tracking Challenge",
+    "knowledge graph": "Google Knowledge Graph",
+    "gpt": "GPT",
+    "lesk": "Lesk algorithm",
+    "conll 2003": "CoNLL-2003",
+    "muc 6": "MUC-6"
+  },
+  "facts": [
+    {
+      "s": "Turing Test",
+      "r": "created_by",
+      "o": "Alan Turing",
+      "doc": "01-turing-test"
+    },
+    {
+      "s": "Turing Test",
+      "r": "created_in",
+      "o": "1950",
+      "doc": "01-turing-test"
+    },
+    {
+      "s": "Turing Test",
+      "r": "published_in",
+      "o": "the journal Mind",
+      "doc": "01-turing-test"
+    },
+    {
+      "s": "Chinese Room",
+      "r": "created_by",
+      "o": "John Searle",
+      "doc": "01-turing-test"
+    },
+    {
+      "s": "Chinese Room",
+      "r": "created_in",
+      "o": "1980",
+      "doc": "01-turing-test"
+    },
+    {
+      "s": "Loebner Prize",
+      "r": "created_by",
+      "o": "Hugh Loebner",
+      "doc": "01-turing-test"
+    },
+    {
+      "s": "Loebner Prize",
+      "r": "created_in",
+      "o": "1991",
+      "doc": "01-turing-test"
+    },
+    {
+      "s": "ELIZA",
+      "r": "created_by",
+      "o": "Joseph Weizenbaum",
+      "doc": "02-eliza-and-early-chatbots"
+    },
+    {
+      "s": "ELIZA",
+      "r": "created_in",
+      "o": "1966",
+      "doc": "02-eliza-and-early-chatbots"
+    },
+    {
+      "s": "ELIZA",
+      "r": "affiliated_with",
+      "o": "the Massachusetts Institute of Technology",
+      "doc": "02-eliza-and-early-chatbots"
+    },
+    {
+      "s": "DOCTOR",
+      "r": "affiliated_with",
+      "o": "ELIZA, as its best known script",
+      "doc": "02-eliza-and-early-chatbots"
+    },
+    {
+      "s": "PARRY",
+      "r": "created_by",
+      "o": "Kenneth Colby",
+      "doc": "02-eliza-and-early-chatbots"
+    },
+    {
+      "s": "PARRY",
+      "r": "created_in",
+      "o": "1972",
+      "doc": "02-eliza-and-early-chatbots"
+    },
+    {
+      "s": "PARRY",
+      "r": "affiliated_with",
+      "o": "Stanford University",
+      "doc": "02-eliza-and-early-chatbots"
+    },
+    {
+      "s": "inverse document frequency",
+      "r": "created_by",
+      "o": "Karen Sparck Jones",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "inverse document frequency",
+      "r": "created_in",
+      "o": "1972",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "inverse document frequency",
+      "r": "published_in",
+      "o": "the Journal of Documentation",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "vector space model",
+      "r": "created_by",
+      "o": "Gerard Salton",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "SMART",
+      "r": "created_by",
+      "o": "Gerard Salton and his group",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "SMART",
+      "r": "affiliated_with",
+      "o": "Cornell University",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "Cranfield experiments",
+      "r": "created_by",
+      "o": "Cyril Cleverdon",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "Cranfield experiments",
+      "r": "affiliated_with",
+      "o": "the College of Aeronautics in Cranfield",
+      "doc": "03-information-retrieval-basics"
+    },
+    {
+      "s": "BM25",
+      "r": "created_by",
+      "o": "Stephen Robertson and Karen Sparck Jones",
+      "doc": "04-bm25-ranking"
+    },
+    {
+      "s": "BM25",
+      "r": "affiliated_with",
+      "o": "City University London",
+      "doc": "04-bm25-ranking"
+    },
+    {
+      "s": "BM25",
+      "r": "quantity",
+      "o": "k1 is usually between 1.2 and 2.0, and b is usually 0.75",
+      "doc": "04-bm25-ranking"
+    },
+    {
+      "s": "TREC",
+      "r": "created_in",
+      "o": "1992",
+      "doc": "04-bm25-ranking"
+    },
+    {
+      "s": "TREC",
+      "r": "affiliated_with",
+      "o": "the National Institute of Standards and Technology",
+      "doc": "04-bm25-ranking"
+    },
+    {
+      "s": "BASEBALL",
+      "r": "created_by",
+      "o": "Bert Green and colleagues",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "BASEBALL",
+      "r": "created_in",
+      "o": "1961",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "LUNAR",
+      "r": "created_by",
+      "o": "William Woods",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "LUNAR",
+      "r": "created_in",
+      "o": "around 1971",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "Watson",
+      "r": "created_by",
+      "o": "IBM",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "Watson",
+      "r": "created_in",
+      "o": "February 2011, when it won on Jeopardy",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "SQuAD",
+      "r": "created_in",
+      "o": "2016",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "SQuAD",
+      "r": "affiliated_with",
+      "o": "Stanford University",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "SQuAD",
+      "r": "quantity",
+      "o": "more than a hundred thousand questions",
+      "doc": "05-question-answering-systems"
+    },
+    {
+      "s": "MUC-6",
+      "r": "created_in",
+      "o": "1995",
+      "doc": "06-named-entity-recognition"
+    },
+    {
+      "s": "CoNLL-2003",
+      "r": "created_in",
+      "o": "2003",
+      "doc": "06-named-entity-recognition"
+    },
+    {
+      "s": "CoNLL-2003",
+      "r": "quantity",
+      "o": "four entity types: person, location, organisation and miscellaneous",
+      "doc": "06-named-entity-recognition"
+    },
+    {
+      "s": "en_core_web_sm",
+      "r": "quantity",
+      "o": "eighteen entity types, trained on OntoNotes",
+      "doc": "06-named-entity-recognition"
+    },
+    {
+      "s": "word2vec",
+      "r": "created_by",
+      "o": "Tomas Mikolov and colleagues",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "word2vec",
+      "r": "created_in",
+      "o": "2013",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "word2vec",
+      "r": "affiliated_with",
+      "o": "Google",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "GloVe",
+      "r": "created_by",
+      "o": "Jeffrey Pennington, Richard Socher and Christopher Manning",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "GloVe",
+      "r": "created_in",
+      "o": "2014",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "GloVe",
+      "r": "affiliated_with",
+      "o": "Stanford University",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "fastText",
+      "r": "created_in",
+      "o": "2016",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "fastText",
+      "r": "affiliated_with",
+      "o": "Facebook AI Research",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "distributional hypothesis",
+      "r": "created_by",
+      "o": "Zellig Harris and John Rupert Firth",
+      "doc": "07-word-embeddings"
+    },
+    {
+      "s": "Transformer",
+      "r": "created_by",
+      "o": "Ashish Vaswani and colleagues",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "Transformer",
+      "r": "created_in",
+      "o": "2017",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "Transformer",
+      "r": "affiliated_with",
+      "o": "Google",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "Transformer",
+      "r": "published_in",
+      "o": "the paper Attention Is All You Need",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "BERT",
+      "r": "created_in",
+      "o": "2018",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "BERT",
+      "r": "affiliated_with",
+      "o": "Google",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "GPT",
+      "r": "created_in",
+      "o": "2018",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "GPT",
+      "r": "affiliated_with",
+      "o": "OpenAI",
+      "doc": "08-transformers"
+    },
+    {
+      "s": "Freebase",
+      "r": "created_by",
+      "o": "the company Metaweb",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "Freebase",
+      "r": "created_in",
+      "o": "2007",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "Wikidata",
+      "r": "created_by",
+      "o": "the Wikimedia Foundation",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "Wikidata",
+      "r": "created_in",
+      "o": "October 2012",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "Google Knowledge Graph",
+      "r": "created_in",
+      "o": "May 2012",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "SPARQL",
+      "r": "created_in",
+      "o": "2008, when it became a W3C recommendation",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "Cypher",
+      "r": "created_in",
+      "o": "2011",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "Cypher",
+      "r": "affiliated_with",
+      "o": "Neo4j",
+      "doc": "09-knowledge-graphs"
+    },
+    {
+      "s": "GUS",
+      "r": "created_by",
+      "o": "Daniel Bobrow and colleagues",
+      "doc": "10-dialogue-systems"
+    },
+    {
+      "s": "GUS",
+      "r": "created_in",
+      "o": "1977",
+      "doc": "10-dialogue-systems"
+    },
+    {
+      "s": "GUS",
+      "r": "affiliated_with",
+      "o": "Xerox PARC",
+      "doc": "10-dialogue-systems"
+    },
+    {
+      "s": "Rasa",
+      "r": "created_in",
+      "o": "2016",
+      "doc": "10-dialogue-systems"
+    },
+    {
+      "s": "Dialog State Tracking Challenge",
+      "r": "created_in",
+      "o": "2013",
+      "doc": "10-dialogue-systems"
+    },
+    {
+      "s": "BLEU",
+      "r": "created_by",
+      "o": "Kishore Papineni and colleagues",
+      "doc": "11-evaluation-metrics"
+    },
+    {
+      "s": "BLEU",
+      "r": "created_in",
+      "o": "2002",
+      "doc": "11-evaluation-metrics"
+    },
+    {
+      "s": "BLEU",
+      "r": "affiliated_with",
+      "o": "IBM",
+      "doc": "11-evaluation-metrics"
+    },
+    {
+      "s": "ROUGE",
+      "r": "created_by",
+      "o": "Chin-Yew Lin",
+      "doc": "11-evaluation-metrics"
+    },
+    {
+      "s": "ROUGE",
+      "r": "created_in",
+      "o": "2004",
+      "doc": "11-evaluation-metrics"
+    },
+    {
+      "s": "WordNet",
+      "r": "created_by",
+      "o": "George Armitage Miller",
+      "doc": "12-wordnet-and-lexical-semantics"
+    },
+    {
+      "s": "WordNet",
+      "r": "created_in",
+      "o": "1985",
+      "doc": "12-wordnet-and-lexical-semantics"
+    },
+    {
+      "s": "WordNet",
+      "r": "affiliated_with",
+      "o": "Princeton University",
+      "doc": "12-wordnet-and-lexical-semantics"
+    },
+    {
+      "s": "WordNet",
+      "r": "quantity",
+      "o": "roughly 117,000 synsets in version 3.0",
+      "doc": "12-wordnet-and-lexical-semantics"
+    },
+    {
+      "s": "Lesk algorithm",
+      "r": "created_by",
+      "o": "Michael Lesk",
+      "doc": "12-wordnet-and-lexical-semantics"
+    },
+    {
+      "s": "Lesk algorithm",
+      "r": "created_in",
+      "o": "1986",
+      "doc": "12-wordnet-and-lexical-semantics"
+    }
+  ]
+}
