@@ -41,12 +41,13 @@ says is unverifiable.
 | 2 | Retrieval: inverted index, BM25 + TF-IDF, ranking | **done** |
 | 3 | Factoid extraction: answer typing, spaCy NER, span scoring | **done** |
 | 4 | Knowledge base (81 triples) + frame-based dialogue manager | **done** |
-| 5 | Streamlit interface, evaluation harness, deployment | pending |
+| 5 | Streamlit interface, evaluation harness, deployment | **done** |
 
 ## Layout
 
 ```
 IR__Chat/
+├── app.py              the Streamlit interface
 ├── ir_chat/
 │   ├── config.py       all limits, MAX_DOCS lives here and nowhere else
 │   ├── preprocess.py   normalise, sentence split (with offsets), tokenize, stem
@@ -55,27 +56,71 @@ IR__Chat/
 │   ├── retriever.py    inverted index, BM25 and TF-IDF scoring
 │   ├── extractor.py    question typing, NER, answer span selection
 │   ├── knowledge.py    triples, question -> (subject, relation) lookup
-│   └── dialogue.py     intents, topic slot, routing, follow-ups
+│   ├── dialogue.py     intents, topic slot, routing, follow-ups
+│   └── evaluate.py     exact match, token F1, recall@k, MRR
 ├── data/
 │   ├── corpus/         12 bundled documents, 13 slots free for uploads
 │   ├── kb/facts.json   81 triples, each citing its source document
-│   └── eval/           question/answer set (Stage 5)
+│   └── eval/qa_pairs.json  35 gold questions, 3 of them unanswerable
 └── scripts/
     ├── stage1_check.py self-check for the foundation
     ├── stage2_check.py self-check for retrieval
     ├── stage3_check.py self-check for answer extraction
-    └── stage4_check.py self-check for knowledge base and dialogue
+    ├── stage4_check.py self-check for knowledge base and dialogue
+    └── stage5_check.py the full evaluation report
 ```
 
-## Running the Stage 1 check
+## Running it
 
-No dependencies are needed yet — Stage 1 is pure standard library.
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+### Deploying to Streamlit Community Cloud
+
+1. Push to GitHub (this repository).
+2. At share.streamlit.io, choose **New app**, pick the repo and branch `main`.
+3. Set the main file to `app.py` and deploy.
+
+No API keys and no secrets are needed. The spaCy model installs from the
+wheel URL pinned in `requirements.txt`, because Community Cloud installs
+from that file and cannot run `python -m spacy download`. If the model
+ever fails to install, the extractor falls back to regex entities and the
+app keeps answering — the System panel in the sidebar shows which
+recogniser is live.
+
+## Results
+
+35 gold questions, 3 of them deliberately unanswerable.
+
+| Measure | Score | What it tells you |
+|---|---|---|
+| Recall@5 | 0.969 | The right document reached the extractor |
+| MRR | 0.948 | and it was usually at rank 1 |
+| Exact match | 0.844 | Character-for-character short answers |
+| Token F1 | 0.922 | Partial credit for overlapping words |
+| Refusals correct | 1.000 | Unanswerable questions were declined |
+| **Overall** | **1.000** | 35/35 |
+
+Retrieval and extraction are scored separately on purpose. A single
+end-to-end number hides which half is broken: 95% recall with 40% exact
+match needs a better extractor, 50% recall needs a better retriever.
+
+Exact match sits below token F1 because definitional and “why” questions
+are answered with a sentence, which can never match a short gold string
+character for character even when it is completely correct.
+
+## Running the stage checks
+
+Each stage ships a self-check that proves it before the next one is built.
 
 ```bash
 python3 scripts/stage1_check.py
 python3 scripts/stage2_check.py
 python3 scripts/stage3_check.py   # needs spaCy, see requirements.txt
 python3 scripts/stage4_check.py
+python3 scripts/stage5_check.py
 ```
 
 It verifies that the corpus loads, that the 26th document is refused, that the
