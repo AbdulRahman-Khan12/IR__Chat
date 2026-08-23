@@ -163,6 +163,19 @@ _PLURAL_RULES = (("ies", "y"), ("sses", "ss"), ("shes", "sh"), ("ches", "ch"), (
 _VERB_SUFFIXES = ("ingly", "edly", "ing", "ed", "ly")
 _NO_STRIP_S = ("ss", "us", "is", "as", "os")
 
+# One family of words causes most of the misses in this corpus: a document says
+# "length normalisation" and the question asks why BM25 "normalises" for length.
+# Without these rules the two never collide and the passage is never found.
+# Longest suffix first, so "isation" is tested before "ise".
+_MORPH_RULES = (
+    ("isations", "is"), ("izations", "iz"),
+    ("isation", "is"), ("ization", "iz"),
+    ("ising", "is"), ("izing", "iz"),
+    ("ised", "is"), ("ized", "iz"),
+    ("ises", "is"), ("izes", "iz"),
+    ("ise", "is"), ("ize", "iz"),
+)
+
 
 def simple_stem(token: str) -> str:
     """A conservative suffix stripper.
@@ -174,6 +187,10 @@ def simple_stem(token: str) -> str:
     """
     if len(token) <= 3 or any(c.isdigit() for c in token):
         return token
+
+    for suffix, replacement in _MORPH_RULES:
+        if token.endswith(suffix) and len(token) - len(suffix) + len(replacement) >= 4:
+            return token[: -len(suffix)] + replacement
 
     for suffix, replacement in _PLURAL_RULES:
         if token.endswith(suffix) and len(token) - len(suffix) + len(replacement) >= 3:
